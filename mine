@@ -1,0 +1,42 @@
+mine = 0
+def mae():
+    agent.destroy(FORWARD)
+    agent.move(FORWARD, 1)
+    agent.destroy(UP)
+    agent.destroy(RIGHT)
+    agent.destroy(LEFT)
+    agent.move(UP, 1)
+    agent.destroy(UP)
+    agent.destroy(RIGHT)
+    agent.destroy(LEFT)
+    agent.move(UP, 1)
+    agent.destroy(RIGHT)
+    agent.destroy(LEFT)
+    agent.move(DOWN, 2)
+
+def on_forever():
+    pass
+loops.forever(on_forever)
+
+def on_on_chat():
+    mae()
+player.on_chat("mae", on_on_chat)
+
+def on_on_chat2():
+    agent.teleport_to_player()
+player.on_chat("!!comeback", on_on_chat2)
+
+def on_on_chat3():
+    global mine
+    mine = 0
+player.on_chat("!!stop", on_on_chat3)
+
+def on_on_chat4():
+    global mine
+    mine = 1
+    agent.teleport(world(-44, -55, 135), WEST)
+    while agent.inspect(AgentInspection.BLOCK, FORWARD) == AIR:
+        agent.move(FORWARD, 1)
+    while mine == 1:
+        mae()
+player.on_chat("!!mine", on_on_chat4)
